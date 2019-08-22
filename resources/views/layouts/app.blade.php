@@ -85,11 +85,19 @@ desired effect
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        @yield('header')
-        <small>@yield('header-desc')</small>
-      </h1>
-      @yield('header-button')
+      <div class="row">
+        <div class="col-xs-12">
+            <h1>
+                @yield('header')
+                <small>@yield('header-desc')</small>
+              </h1>
+        </div>
+        <div class="col-xs-2">
+            @yield('header-button')
+        </div>
+      </div>
+
+      
     </section>
 
     <!-- Main content -->
