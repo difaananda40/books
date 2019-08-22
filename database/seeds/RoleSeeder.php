@@ -12,6 +12,7 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
+        Role::truncate();
         Role::insert([
             [
                 'name' => 'user',
