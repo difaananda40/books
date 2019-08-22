@@ -24,7 +24,10 @@ Route::middleware(['role:admin'])->group(function () {
     Route::get('/book/reject/{id}', 'BookController@reject')->name('book.reject');
     Route::get('/book/verify/{id}', 'BookController@verify')->name('book.verify');
     Route::get('/book/pending', 'BookController@pending')->name('book.pending');
+    Route::get('/user/get-data', 'UserController@getData')->name('user.getData');
     Route::resource('/user', 'UserController');
 });
 
+Route::get('/book/get-data-pending', 'BookController@getDataPending')->name('book.getDataPending');
+Route::get('/book/get-data', 'BookController@getData')->name('book.getData');
 Route::resource('/book', 'BookController');

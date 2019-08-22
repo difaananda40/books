@@ -31,7 +31,7 @@ List
         <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
-                <table id="example2" class="table table-bordered table-hover">
+                <table id="table" class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -40,24 +40,6 @@ List
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach ($users as $user)
-                        <tr>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->role->name }}</td>
-                            <td>
-                                <a href="{{ route('user.edit', $user->id) }}"
-                                    class="btn btn-sm btn-primary m-1">Edit</a>
-                                <form method="post" action="{{ route('user.destroy', $user->id) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
                 </table>
             </div>
             <!-- /.box-body -->
@@ -66,8 +48,34 @@ List
 </div>
 <script>
     $(() => {
-        $('#example2').DataTable();
+        $('#table').DataTable({
+            'processing': true,
+            'serverSide': true,
+            'ajax': "{{ route('user.getData') }}",
+            'columns': [
+                { "data": "name" },
+                { "data": "email" },
+                { "data": "role.name" },
+                { render: (data, type, row) => {
+                    return `
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <a href="/user/${row.id}/edit" 
+                                class="btn btn-sm btn-primary m-1">
+                                    Edit
+                                </a>
+                            </div>
+                            <div class="col-xs-2">
+                                <form method="post" action="/user/${row.id}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </div>
+                    `;
+                }}
+            ]
+        });
     })
-
 </script>
 @endsection

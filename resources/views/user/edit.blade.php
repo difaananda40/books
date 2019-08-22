@@ -49,14 +49,14 @@ Edit
                             </span>
                         @enderror
                     </div>
-                    <div class="form-group @error('role') has-error @enderror">
+                    <div class="form-group @error('role_id') has-error @enderror">
                         <label for="role">Role</label>
                         <select class="form-control" name="role_id" id="role">
                             <option disabled selected hidden>Pick Role</option>
                             <option value="1" @if($user->role_id == 1) selected @endif>User</option>
                             <option value="2" @if($user->role_id == 2) selected @endif>Admin</option>
                         </select>
-                        @error('role')
+                        @error('role_id')
                             <span class="help-block">
                                 <strong>{{ $message }}</strong>
                             </span>

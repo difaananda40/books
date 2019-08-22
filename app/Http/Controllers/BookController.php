@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\BookRequest;
 use App\Models\User;
 use App\Jobs\SendVerifyBookMail;
+use DataTables;
 
 class BookController extends Controller
 {
@@ -15,20 +16,28 @@ class BookController extends Controller
         $this->user = $user;
     }
 
-    public function index() {
+    public function getData() {
         if(auth()->user()->role->name == 'admin') {
-            $books = $this->book->where('is_verificated', true)->get();
+            $books = $this->book->with('user')->where('is_verificated', true)->get();
         }
         else {
-            $books = $this->book->where('is_verificated', true)
+            $books = $this->book->with('user')->where('is_verificated', true)
                       ->where('user_id', auth()->user()->id)->get();
         }
-        return view('book.index', ['books' => $books]);
+        return DataTables::of($books)->make(true);
+    }
+
+    public function index() {
+        return view('book.index');
+    }
+
+    public function getDataPending() {
+        $books = $this->book->with('user')->where('is_verificated', false)->get();
+        return DataTables::of($books)->make(true);
     }
 
     public function pending() {
-        $books = $this->book->where('is_verificated', false)->get();
-        return view('book.pending', ['books' => $books]);
+        return view('book.pending');
     }
 
     public function verifyPage($id) {

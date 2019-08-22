@@ -31,7 +31,7 @@ List
         <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
-                <table id="example2" class="table table-bordered table-hover">
+                <table id="table" class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -42,25 +42,6 @@ List
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach ($books as $book)
-                        <tr>
-                            <td>{{ $book->name }}</td>
-                            <td>{{ $book->writer }}</td>
-                            <td>{{ $book->pages }}</td>
-                            <td>{{ $book->release_year }}</td>
-                            <td>{{ $book->user->name }}</td>
-                            <td>
-                                    <a href="{{ route('book.edit', $book->id) }}" class="btn btn-sm btn-primary m-1">Edit</a>
-                                    <form method="post" action="{{ route('book.destroy', $book->id) }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                    </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
                 </table>
             </div>
             <!-- /.box-body -->
@@ -69,7 +50,37 @@ List
 </div>
 <script>
     $(() => {
-        $('#example2').DataTable();
+        $('#table').DataTable({
+            'processing': true,
+            'serverSide': true,
+            'ajax': "{{ route('book.getData') }}",
+            'columns': [
+                { "data": "name" },
+                { "data": "writer" },
+                { "data": "pages" },
+                { "data": "release_year" },
+                { "data": "user.name" },
+                { render: (data, type, row) => {
+                    return `
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <a href="/book/${row.id}/edit" 
+                                class="btn btn-sm btn-primary">
+                                    Edit
+                                </a>
+                            </div>
+                            <div class="col-xs-3">
+                                <form method="post" action="/book/${row.id}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    `;
+                }}
+            ]
+        });
     })
 
 </script>

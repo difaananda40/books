@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
+use DataTables;
 
 class UserController extends Controller
 {
@@ -12,9 +13,13 @@ class UserController extends Controller
         $this->user = $user;
     }
 
+    public function getData() {
+        $user = $this->user->with('role')->get();
+        return DataTables::of($user)->make(true);
+    }
+
     public function index() {
-        $user = $this->user->get();
-        return view('user.index', ['users' => $user]);
+        return view('user.index');
     }
 
     public function create() {
