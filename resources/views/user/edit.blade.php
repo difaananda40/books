@@ -62,6 +62,10 @@ Edit
                             </span>
                         @enderror
                     </div>
+                    <div class="form-group">
+                        <label for="reset_password">Reset Password</label>
+                        <a class="btn btn-primary" href="{{ route('user.resetPassword', $user->id) }}">Reset Password</a>
+                    </div>
                 </div>
                 <!-- /.box-body -->
 

@@ -57,4 +57,12 @@ class UserController extends Controller
             return redirect()->route('user.index')->with(['message' => "{$user->name} has deleted!"]);    
         }
     }
+
+    public function resetPassword($id) {
+        $user = $this->user->findOrFail($id);
+        $user->update([
+            'password' => bcrypt('user')
+        ]);
+        return redirect()->route('user.edit', $id)->with(['message' => "{$user->name}'s password reseted!"]);
+    }
 }

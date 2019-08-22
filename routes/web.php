@@ -25,6 +25,7 @@ Route::middleware(['role:admin'])->group(function () {
     Route::get('/book/verify/{id}', 'BookController@verify')->name('book.verify');
     Route::get('/book/pending', 'BookController@pending')->name('book.pending');
     Route::get('/user/get-data', 'UserController@getData')->name('user.getData');
+    Route::get('/user/reset-password/{id}', 'UserController@resetPassword')->name('user.resetPassword');
     Route::resource('/user', 'UserController');
 });
 
